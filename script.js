@@ -17,14 +17,10 @@ window.onload = function () {
         .addEventListener("change", loadLocalFile);
 
 
-    if (location.protocol !== "file:") {
-
-        loadDefaultProperties();
-
-    }
+    // Automatically load GitHub properties file
+    loadDefaultProperties();
 
 };
-
 
 
 //----------------------------------------------------
@@ -35,12 +31,14 @@ async function loadDefaultProperties() {
 
     try {
 
-        let response = await fetch("cities.properties");
+        let response = await fetch("./cities.properties");
 
 
         if (!response.ok) {
 
-            throw new Error("Cannot load cities.properties");
+            throw new Error(
+                "cities.properties not found"
+            );
 
         }
 
@@ -50,22 +48,26 @@ async function loadDefaultProperties() {
 
         distances = {};
 
+
         parseProperties(text);
 
 
-        console.log("Default properties loaded");
+        console.log(
+            "Automatically loaded routes: " +
+            Object.keys(distances).length
+        );
 
 
     }
     catch(error) {
 
-        console.log(error);
+        console.log(
+            "Auto load failed: " + error
+        );
 
     }
 
 }
-
-
 
 //----------------------------------------------------
 // Load local properties file
