@@ -27,7 +27,47 @@ window.onload = function () {
 // Load default cities.properties
 //----------------------------------------------------
 
+async function loadDefaultProperties() {
 
+    try {
+
+        let response = await fetch("./cities.properties");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "cities.properties not found"
+            );
+
+        }
+
+
+        let text = await response.text();
+
+
+        distances = {};
+
+
+        parseProperties(text);
+
+
+        console.log(
+            "Automatically loaded routes: " +
+            Object.keys(distances).length
+        );
+
+
+    }
+    catch(error) {
+
+        console.log(
+            "Auto load failed: " + error
+        );
+
+    }
+
+}
 
 //----------------------------------------------------
 // Load local properties file
